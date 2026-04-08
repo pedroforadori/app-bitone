@@ -6,6 +6,7 @@ import { LayoutDashboard, Grid3X3, LogOut, Menu, X, Sun, Moon } from 'lucide-rea
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/contexts/ThemeContext';
+import { Separator } from './ui/separator';
 
 export function Sidebar() {
     const [, setLocation] = useLocation();
@@ -14,11 +15,11 @@ export function Sidebar() {
     const { theme, toggleTheme } = useTheme();
 
     const handleNavigateToDashboard = () => {
-        setLocation('/');
+        setLocation('/dashboard');
     };
 
     const handleNavigateToGrid = () => {
-        setLocation('/');
+        setLocation('/grid');
     };
 
     const handleLogout = () => {
@@ -82,6 +83,7 @@ export function Sidebar() {
                         {isOpen && (theme === 'dark' ? 'Claro' : 'Escuro')}
                     </Button>
                 )}
+                <Separator />
                 <Button
                     variant="ghost"
                     className={`w-4/5 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950 transition-all ${isOpen ? 'justify-start gap-4 h-12 px-4' : 'justify-center h-12'}`}

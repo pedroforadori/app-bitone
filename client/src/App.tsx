@@ -8,6 +8,7 @@ import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { Sidebar } from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
+import Grid from "./pages/Grid";
 
 
 function ProtectedRouter() {
@@ -23,6 +24,8 @@ function ProtectedRouter() {
       <main className="flex-1 overflow-auto">
         <Switch>
           <Route path={"/"} component={Dashboard} />
+          <Route path={"/dashboard"} component={Dashboard} />
+          <Route path={"/grid"} component={Grid} />
           <Route path={"/404"} component={NotFound} />
           {/* Final fallback route */}
           <Route component={NotFound} />

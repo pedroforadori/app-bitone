@@ -19,14 +19,12 @@ export default function Dashboard() {
   return (
     <main className="min-h-screen bg-background">
       {/* Header */}
-      <div className="border-b border-border bg-card">
-        <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-          <DashboardHeader
-            title="BitOne Command Center"
-            description="Monitoramento de liquidação e registro de contratos em tempo real."
-            isLive={isLive}
-          />
-        </div>
+      <div className="border-b bg-card">
+        <DashboardHeader
+          title="BitOne Command Center"
+          description="Monitoramento de liquidação e registro de contratos em tempo real."
+          isLive={isLive}
+        />
       </div>
 
       {/* Content */}
@@ -113,19 +111,6 @@ export default function Dashboard() {
               )}
             </div>
           </div>
-        </div>
-
-        {/* Contracts Table */}
-        <div className="bg-card border border-border rounded-lg shadow-sm overflow-hidden">
-          <div className="p-6 border-b border-border">
-            <h2 className="text-lg font-semibold text-foreground">
-              Últimos Contratos
-            </h2>
-            <p className="text-sm text-muted-foreground mt-1">
-              Clique em um contrato para visualizar detalhes completos
-            </p>
-          </div>
-          <ContractsTable contracts={contracts} isLoading={isLoading} />
         </div>
       </div>
     </main>

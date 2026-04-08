@@ -34,25 +34,9 @@ export function DashboardHeader({
   }, [isLive]);
 
   return (
-    <div className="flex items-start justify-between gap-4">
-      <div>
-        <h1 className="text-4xl font-bold text-foreground mb-2">{title}</h1>
-        <p className="text-muted-foreground">{description}</p>
-      </div>
-
-      {/* <div className="flex items-center gap-3">
-        {toggleTheme && (
-          <button
-            type="button"
-            onClick={toggleTheme}
-            className="flex items-center gap-2 rounded-md border border-border bg-background px-4 py-2 text-foreground transition 
-                       hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring"
-          >
-            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-            {theme === 'dark' ? 'Light' : 'Dark'}
-          </button>
-        )}
-      </div> */}
+    <div className="flex flex-col max-w-7xl mx-auto px-4 py-2 sm:px-6 lg:px-8">
+      <h1 className="text-lg font-bold text-foreground mb-1">{title}</h1>
+      <p className="text-muted-foreground text-sm">{description}</p>
     </div>
   );
 }
