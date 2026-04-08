@@ -5,14 +5,17 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
-import { Sidebar } from "./components/Sidebar";
+import { MobileHeader } from "./components/MobileHeader";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Grid from "./pages/Grid";
+import { useState } from "react";
+import { Sidebar } from "./components/Sidebar";
 
 
 function ProtectedRouter() {
   const { isAuthenticated } = useAuth();
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   if (!isAuthenticated) {
     return <Login />;
@@ -20,8 +23,9 @@ function ProtectedRouter() {
 
   return (
     <div className="flex h-screen">
-      <Sidebar />
-      <main className="flex-1 overflow-auto">
+      <Sidebar isMobileOpen={isMobileSidebarOpen} onMobileToggle={setIsMobileSidebarOpen} />
+      <MobileHeader onMenuClick={() => setIsMobileSidebarOpen(true)} />
+      <main className="flex-1 overflow-auto pt-16 md:pt-0">
         <Switch>
           <Route path={"/"} component={Dashboard} />
           <Route path={"/dashboard"} component={Dashboard} />
