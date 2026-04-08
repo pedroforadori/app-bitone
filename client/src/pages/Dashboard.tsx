@@ -10,7 +10,7 @@ import { DashboardHeader } from '@/components/DashboardHeader';
 import { KpiCard } from '@/components/KpiCard';
 import { ThroughputChart } from '@/components/ThroughputChart';
 import { ContractsTable } from '@/components/ContractsTable';
-import { formatVolume, formatCurrency } from '@/lib/format';
+import { formatVolume } from '@/lib/format';
 import { TrendingUp, DollarSign, CheckCircle, AlertCircle } from 'lucide-react';
 
 export default function Dashboard() {

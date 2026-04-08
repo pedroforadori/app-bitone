@@ -7,7 +7,6 @@
 
 import { useEffect, useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
-import { Moon, Sun } from 'lucide-react';
 
 interface DashboardHeaderProps {
   title: string;
