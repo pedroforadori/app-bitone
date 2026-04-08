@@ -38,7 +38,7 @@ function generateContract(index: number): Contract {
   return {
     id: `CTR-${String(index + 1).padStart(7, '0')}`,
     bankName: BANKS[Math.floor(Math.random() * BANKS.length)],
-    amount: Math.floor(Math.random() * 500000) + 10000,
+    amount: Math.floor(Math.random() * 50000) + 10000,
     status,
     customerName: CUSTOMER_NAMES[Math.floor(Math.random() * CUSTOMER_NAMES.length)],
     createdAt: new Date(Date.now() - Math.random() * 86400000), // Últimas 24h

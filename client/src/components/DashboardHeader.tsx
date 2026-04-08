@@ -7,7 +7,8 @@
 
 import { useEffect, useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
-import { Moon, Sun } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import { Moon, Sun, LogOut } from 'lucide-react';
 
 interface DashboardHeaderProps {
   title: string;
@@ -22,6 +23,7 @@ export function DashboardHeader({
 }: DashboardHeaderProps) {
   const [isBlinking, setIsBlinking] = useState(true);
   const { theme, toggleTheme } = useTheme();
+  const { logout } = useAuth();
 
   useEffect(() => {
     if (!isLive) return;
@@ -64,6 +66,16 @@ export function DashboardHeader({
             {theme === 'dark' ? 'Light' : 'Dark'}
           </button>
         )}
+
+        <button
+          type="button"
+          onClick={logout}
+          className="flex items-center gap-2 rounded-md border border-border bg-background px-4 py-2 text-foreground transition 
+                     hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring"
+        >
+          <LogOut size={16} />
+          Logout
+        </button>
       </div>
     </div>
   );

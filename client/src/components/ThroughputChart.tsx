@@ -27,11 +27,11 @@ export function ThroughputChart() {
     setData(initialData);
 
     // Simula atualização de dados a cada 10 segundos
-    const interval = setInterval(() => {
-      setData(generateThroughputData());
-    }, 10000);
+    // const interval = setInterval(() => {
+    //   setData(generateThroughputData());
+    // }, 10000);
 
-    return () => clearInterval(interval);
+    // return () => clearInterval(interval);
   }, []);
 
   const CustomTooltip = ({ active, payload }: any) => {
