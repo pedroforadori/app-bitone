@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, Phone, Shield, ArrowLeft } from 'lucide-react';
+import { formatPhone, normalizePhone } from '@/utils/formatPhone';
 
 export default function Login() {
   const { login, requestToken, tokenSent, phoneNumber, isLoading } = useAuth();
@@ -15,11 +16,14 @@ export default function Login() {
   const [token, setToken] = useState('');
   const [error, setError] = useState('');
 
+
   const handlePhoneSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
-    if (!phone || phone.length < 10) {
+    const plainPhone = normalizePhone(phone);
+
+    if (!plainPhone || plainPhone.length < 10) {
       setError('Digite um número de telefone válido');
       return;
     }
@@ -84,9 +88,10 @@ export default function Login() {
                   <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     type="tel"
+                    inputMode="numeric"
                     placeholder="(11) 99999-9999"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => setPhone(formatPhone(e.target.value))}
                     className="pl-10"
                     disabled={isLoading}
                   />
@@ -121,9 +126,6 @@ export default function Login() {
                 />
                 <p className="text-xs text-muted-foreground text-center">
                   Código enviado para {phoneNumber}
-                </p>
-                <p className="text-xs text-muted-foreground text-center">
-                  Para simulação, use: 123456
                 </p>
               </div>
 
