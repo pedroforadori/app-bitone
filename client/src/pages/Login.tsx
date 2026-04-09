@@ -127,9 +127,6 @@ export default function Login() {
                 <p className="text-xs text-muted-foreground text-center">
                   Código enviado para {phoneNumber}
                 </p>
-                <p className="text-xs text-muted-foreground text-center">
-                  Para simulação, use: 123456
-                </p>
               </div>
 
               <div className="flex gap-2">

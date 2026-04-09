@@ -110,7 +110,7 @@ export function Sidebar({ isMobileOpen = false, onMobileToggle }: SidebarProps) 
                 </div>
 
                 {/* Items do Menu */}
-                <nav className="flex-1 px-4 py-2 space-y-3">
+                <nav className="flex-1 px-3 py-2 space-y-3">
                     <Button
                         variant="ghost"
                         className={`w-full transition-all ${isOpen ? 'justify-start gap-4 h-12 px-4' : 'justify-center h-12'
