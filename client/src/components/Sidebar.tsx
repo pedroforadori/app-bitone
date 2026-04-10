@@ -14,7 +14,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ isMobileOpen = false, onMobileToggle }: SidebarProps) {
-    const [, setLocation] = useLocation();
+    const [location, setLocation] = useLocation();
     const { logout } = useAuth();
     const [isMobile, setIsMobile] = useState(false);
     const [isOpen, setIsOpen] = useState<boolean>(() => {
@@ -25,6 +25,19 @@ export function Sidebar({ isMobileOpen = false, onMobileToggle }: SidebarProps) 
         return stored !== null ? JSON.parse(stored) : true;
     });
     const { theme, toggleTheme } = useTheme();
+
+    const isActive = (path: string) => {
+        if (path === '/dashboard') {
+            return location === '/' || location === '/dashboard';
+        }
+        return location === path;
+    };
+
+    const getMenuClass = (path: string) => {
+        const base = isOpen ? 'justify-start gap-4 h-12 px-4' : 'justify-center h-12';
+        const active = isActive(path) ? 'text-primary text-foreground font-bold bg-gray-200 hover:bg-gray-200 dark:bg-accent/30' : 'hover:bg-gray-200 dark:hover:bg-accent/20';
+        return `w-full transition-all ${base} ${active}`;
+    };
 
     // Detectar se é mobile
     useEffect(() => {
@@ -103,7 +116,7 @@ export function Sidebar({ isMobileOpen = false, onMobileToggle }: SidebarProps) 
                     {!isMobile && (
                         <button
                             onClick={toggleSidebar}
-                            className="p-1 hover:bg-accent rounded-md transition-colors"
+                            className="p-1 hover:bg-gray-200 rounded-full transition-colors dark:hover:bg-accent/40"
                         >
                             {isOpen ? <X size={20} /> : <Menu size={20} />}
                         </button>
@@ -122,8 +135,7 @@ export function Sidebar({ isMobileOpen = false, onMobileToggle }: SidebarProps) 
                 <nav className="flex-1 px-3 py-2 space-y-3">
                     <Button
                         variant="ghost"
-                        className={`w-full transition-all ${isOpen ? 'justify-start gap-4 h-12 px-4' : 'justify-center h-12'
-                            }`}
+                        className={getMenuClass('/dashboard')}
                         onClick={handleNavigateToDashboard}
                         title="Dashboard"
                     >
@@ -133,8 +145,7 @@ export function Sidebar({ isMobileOpen = false, onMobileToggle }: SidebarProps) 
 
                     <Button
                         variant="ghost"
-                        className={`w-full transition-all ${isOpen ? 'justify-start gap-4 h-12 px-4' : 'justify-center h-12'
-                            }`}
+                        className={getMenuClass('/grid')}
                         onClick={handleNavigateToGrid}
                         title="Grid"
                     >

@@ -17,7 +17,7 @@ export default function Dashboard() {
   const { contracts, stats, isLoading, isLive } = useContracts(5000);
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="w-full min-h-screen bg-background">
       {/* Header */}
       <div className="border-b bg-card">
         <DashboardHeader
