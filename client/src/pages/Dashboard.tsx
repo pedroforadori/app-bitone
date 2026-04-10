@@ -9,12 +9,11 @@ import { useContracts } from '@/hooks/useContracts';
 import { DashboardHeader } from '@/components/DashboardHeader';
 import { KpiCard } from '@/components/KpiCard';
 import { ThroughputChart } from '@/components/ThroughputChart';
-import { ContractsTable } from '@/components/ContractsTable';
 import { formatVolume } from '@/lib/format';
 import { TrendingUp, DollarSign, CheckCircle, AlertCircle } from 'lucide-react';
 
 export default function Dashboard() {
-  const { contracts, stats, isLoading, isLive } = useContracts(5000);
+  const { stats } = useContracts(5000);
 
   return (
     <main className="w-full min-h-screen bg-background">
@@ -23,7 +22,6 @@ export default function Dashboard() {
         <DashboardHeader
           title="Bit One"
           description="Monitoramento de liquidação e registro de contratos em tempo real."
-          isLive={isLive}
         />
       </div>
 

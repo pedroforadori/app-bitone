@@ -11,7 +11,7 @@ import { Loader2, Phone, Shield, ArrowLeft, Sun, Moon } from 'lucide-react';
 import { formatPhone, normalizePhone } from '@/utils/formatPhone';
 
 export default function Login() {
-  const { login, requestToken, tokenSent, phoneNumber, isLoading } = useAuth();
+  const { login, requestToken, phoneNumber, isLoading } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const [step, setStep] = useState<'phone' | 'token'>('phone');
   const [phone, setPhone] = useState('');

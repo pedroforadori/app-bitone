@@ -7,14 +7,10 @@
 
 import { useContracts } from '@/hooks/useContracts';
 import { DashboardHeader } from '@/components/DashboardHeader';
-import { KpiCard } from '@/components/KpiCard';
-import { ThroughputChart } from '@/components/ThroughputChart';
 import { ContractsTable } from '@/components/ContractsTable';
-import { formatVolume, formatCurrency } from '@/lib/format';
-import { TrendingUp, DollarSign, CheckCircle, AlertCircle } from 'lucide-react';
 
 export default function Grid() {
-    const { contracts, stats, isLoading, isLive } = useContracts(5000);
+    const { contracts, isLoading } = useContracts(5000);
 
     return (
         <main className="min-h-screen bg-background">
@@ -23,7 +19,6 @@ export default function Grid() {
                 <DashboardHeader
                     title="Últimos Contratos"
                     description="Clique em um contrato para visualizar detalhes completos"
-                    isLive={isLive}
                 />
             </div>
 
