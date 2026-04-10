@@ -231,6 +231,5 @@ Os dados são gerados aleatoriamente com:
    - Validação assíncrona
 
 4. **Autenticação**
-   - Manus OAuth
+   - OAuth
    - Controle de acesso por role
-
