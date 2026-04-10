@@ -21,7 +21,7 @@ export default function Dashboard() {
       {/* Header */}
       <div className="border-b bg-card">
         <DashboardHeader
-          title="BitOne Command Center"
+          title="Bit One"
           description="Monitoramento de liquidação e registro de contratos em tempo real."
           isLive={isLive}
         />

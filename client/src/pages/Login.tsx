@@ -76,7 +76,7 @@ export default function Login() {
           <div className="mx-auto mb-4 w-12 h-12 bg-primary rounded-full flex items-center justify-center">
             <Shield className="w-6 h-6 text-primary-foreground" />
           </div>
-          <CardTitle className="text-2xl">BitOne Command Center</CardTitle>
+          <CardTitle className="text-2xl">BitOne</CardTitle>
           <CardDescription>
             {step === 'phone'
               ? 'Digite seu número de telefone para receber o código de acesso'

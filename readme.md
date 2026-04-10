@@ -8,7 +8,7 @@ O **BitOne Command Center** é um dashboard B2B profissional para monitoramento 
 
 ### Features Implementadas
 
-1. **Real-time KPIs (Indicadores)**
+1. **KPIs (Indicadores)**
    - Total de contratos processados no dia
    - Volume financeiro total (em R$)
    - Taxa de sucesso vs. Taxa de erro (em %)
@@ -30,32 +30,34 @@ O **BitOne Command Center** é um dashboard B2B profissional para monitoramento 
    - Exibe informações completas do contrato
    - Para contratos com erro: mostra código e mensagem de erro
 
-5. **Indicador Live**
-   - Dot verde piscando no header
-   - Indica que o sistema está recebendo dados em tempo real
-
 ## 🏗️ Arquitetura
 
 ### Estrutura de Pastas
 
 ```
 client/src/
-├── components/           # Componentes de UI
-│   ├── KpiCard.tsx      # Card de indicador
-│   ├── ThroughputChart.tsx  # Gráfico de throughput
-│   ├── ContractsTable.tsx   # Tabela com filtros e drawer
-│   ├── DashboardHeader.tsx  # Header com indicador Live
-│   └── ui/              # ShadCN UI components
-├── hooks/               # Custom hooks
-│   └── useContracts.ts  # Hook de polling de contratos
-├── lib/                 # Utilities e tipos
-│   ├── types.ts        # Tipos TypeScript (Domain)
-│   ├── mock-data.ts    # Gerador de dados mockados
-│   └── format.ts       # Funções de formatação
-├── pages/               # Page components
-│   └── Dashboard.tsx    # Página principal
-├── App.tsx              # Router principal
-└── index.css            # Estilos globais
+├── components/               # Componentes de UI
+│   ├── __tests__             # Testes unitários
+│   ├── KpiCard.tsx           # Card de indicador
+│   ├── ThroughputChart.tsx   # Gráfico de throughput
+│   ├── ContractsTable.tsx    # Tabela com filtros e drawer
+│   ├── DashboardHeader.tsx   # Header com indicador Live
+│   └── ui/                   # ShadCN UI components  
+├── hooks/                    # Custom hooks
+│   ├── __tests__             # Testes unitários
+│   └── useContracts.ts       # Hook de polling de contratos
+├── lib/                      # Utilities e tipos 
+│   ├── __tests__             # Testes unitários
+│   ├── types.ts              # Tipos TypeScript (Domain)
+│   ├── mock-data.ts          # Gerador de dados mockados
+│   └── format.ts             # Funções de formatação
+├── pages/                    # Page components
+│   ├── NotFound.tsx          # Página de not found
+│   ├── Dashboard.tsx         # Tipos TypeScript (Domain)
+│   ├── Grid.tsx              # Tabela de operações
+│   └── Login.tsx             # Login page
+├── App.tsx                   # Router principal
+└── index.css                 # Estilos globais
 ```
 
 ### Camadas de Arquitetura
@@ -141,7 +143,6 @@ Dashboard (Page)
 
 ### Desenvolvimento
 ```bash
-cd /home/ubuntu/bitone-command-center
 pnpm install
 pnpm dev
 ```
@@ -152,6 +153,46 @@ Acesse em: `http://localhost:3000`
 ```bash
 pnpm build
 ```
+
+### Testes
+```bash
+# Executar todos os testes
+pnpm test
+```
+
+## 🧪 Testes
+
+O projeto inclui uma suíte completa de testes unitários e de componentes usando **Vitest**:
+
+### Estrutura dos Testes
+
+- **Testes de Componentes** (`client/src/components/__tests__/`)
+  - Testam renderização e comportamento dos componentes React
+  - Utilizam `@testing-library/react` para interações realistas
+
+- **Testes de Hooks** (`client/src/hooks/__tests__/`)
+  - Testam lógica de hooks customizados
+  - Verificam estados e efeitos colaterais
+
+- **Testes Unitários** (`client/src/lib/__tests__/`)
+  - Testam funções utilitárias puras
+  - Verificam formatação, cálculos e validações
+
+### Cobertura Atual
+
+- ✅ Componentes UI (KpiCard)
+- ✅ Hooks customizados (useContracts)
+- ✅ Funções utilitárias (format.ts)
+- 📊 **20 testes passando** em 3 arquivos
+
+Para mais detalhes sobre os testes, consulte [TESTES.md](TESTES.md).
+
+### Stack de Testes
+
+- **Vitest** - Framework de testes
+- **@testing-library/react** - Testes de componentes
+- **@testing-library/jest-dom** - Matchers DOM
+- **jsdom** - Ambiente DOM simulado
 
 ## 📊 Dados Mockados
 
@@ -171,6 +212,9 @@ Os dados são gerados aleatoriamente com:
 - **Recharts** - Data visualization
 - **Wouter** - Routing
 - **Lucide React** - Icons
+- **Vitest** - Testing framework
+- **@testing-library/react** - Component testing
+- **jsdom** - DOM simulation
 
 ## 📝 Melhorias Futuras
 
@@ -178,19 +222,15 @@ Os dados são gerados aleatoriamente com:
    - Substituir mock data por chamadas reais
    - Implementar WebSockets para verdadeiro tempo real
 
-2. **Dark Mode**
-   - Switch de tema
-   - Otimizado para monitoramento 24/7
-
-3. **Filtros Avançados**
+2. **Filtros Avançados**
    - Salvar filtros na URL
    - Comportamento de Senior
 
-4. **Validação com Zod**
+3. **Validação com Zod**
    - Drawer de edição com react-hook-form
    - Validação assíncrona
 
-5. **Autenticação**
+4. **Autenticação**
    - Manus OAuth
    - Controle de acesso por role
 
