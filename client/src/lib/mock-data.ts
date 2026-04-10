@@ -19,8 +19,6 @@ const CUSTOMER_NAMES = [
 
 const ERROR_MESSAGES: Record<string, string> = {
   'ERR_001': 'Divergência na B3 - Dados não conferem',
-  'ERR_002': 'CPF inválido na Receita Federal',
-  'ERR_003': 'Chassi não encontrado no Detran',
   'ERR_004': 'Limite de crédito excedido',
   'ERR_005': 'Documento expirado',
 };

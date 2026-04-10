@@ -194,13 +194,3 @@ Os dados são gerados aleatoriamente com:
    - Manus OAuth
    - Controle de acesso por role
 
-## 📚 Referências
-
-- [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
-- [Domain-Driven Design](https://martinfowler.com/bliki/DomainDrivenDesign.html)
-- [React Best Practices](https://react.dev)
-- [ShadCN UI Documentation](https://ui.shadcn.com)
-
----
-
-**Desenvolvido com ❤️ para demonstrar excelência técnica em front-end**
