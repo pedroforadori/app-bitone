@@ -89,6 +89,8 @@ export function Sidebar({ isMobileOpen = false, onMobileToggle }: SidebarProps) 
             const nextOpen = !isOpen;
             setIsOpen(nextOpen);
             localStorage.setItem('sidebar-open', JSON.stringify(nextOpen));
+            // Dispatch custom event for other components to listen
+            window.dispatchEvent(new CustomEvent('sidebarToggle', { detail: nextOpen }));
         }
     };
 
