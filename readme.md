@@ -1,8 +1,13 @@
-# BitOne Command Center - Documentação do Projeto
+# BitOne - Documentação do Projeto
 
 ## 📋 Visão Geral
 
-O **BitOne Command Center** é um dashboard B2B profissional para monitoramento em tempo real de operações financeiras. Desenvolvido como teste técnico para demonstrar habilidades avançadas de front-end, o projeto implementa uma arquitetura limpa com separação de responsabilidades, seguindo princípios de **Clean Architecture** e **Domain-Driven Design**.
+O **BitOne** é um dashboard B2B profissional para monitoramento em tempo real de operações financeiras. Desenvolvido como teste técnico para demonstrar habilidades avançadas de front-end, o projeto implementa uma arquitetura limpa com separação de responsabilidades, seguindo princípios de **Clean Architecture** e **Domain-Driven Design**.
+
+<img width="1125" height="683" alt="image" src="https://github.com/user-attachments/assets/59ae272a-7dc4-45f6-b66d-37e43ad53fe1" />
+<img width="897" height="605" alt="image" src="https://github.com/user-attachments/assets/95bc972c-702f-44af-9739-983081a61f0e" />
+<img width="1432" height="818" alt="image" src="https://github.com/user-attachments/assets/a7f6c628-7c13-4030-8e41-3aac464647f2" />
+<img width="1430" height="875" alt="image" src="https://github.com/user-attachments/assets/83a1bc45-fc31-4845-a1e7-454dc9245d0e" />
 
 ## 🎯 Escopo do MVP
 
