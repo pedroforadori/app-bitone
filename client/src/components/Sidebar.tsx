@@ -16,8 +16,14 @@ interface SidebarProps {
 export function Sidebar({ isMobileOpen = false, onMobileToggle }: SidebarProps) {
     const [, setLocation] = useLocation();
     const { logout } = useAuth();
-    const [isOpen, setIsOpen] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
+    const [isOpen, setIsOpen] = useState<boolean>(() => {
+        if (typeof window === 'undefined') {
+            return true;
+        }
+        const stored = localStorage.getItem('sidebar-open');
+        return stored !== null ? JSON.parse(stored) : true;
+    });
     const { theme, toggleTheme } = useTheme();
 
     // Detectar se é mobile
@@ -32,12 +38,13 @@ export function Sidebar({ isMobileOpen = false, onMobileToggle }: SidebarProps) 
         return () => window.removeEventListener('resize', checkIsMobile);
     }, []);
 
-    // Em mobile, sidebar começa fechado
+    // Em mobile, sidebar segue o estado mobile; em desktop, usa preferência persistida
     useEffect(() => {
         if (isMobile) {
             setIsOpen(isMobileOpen);
         } else {
-            setIsOpen(true);
+            const stored = localStorage.getItem('sidebar-open');
+            setIsOpen(stored !== null ? JSON.parse(stored) : true);
         }
     }, [isMobile, isMobileOpen]);
 
@@ -66,7 +73,9 @@ export function Sidebar({ isMobileOpen = false, onMobileToggle }: SidebarProps) 
         if (isMobile && onMobileToggle) {
             onMobileToggle(!isOpen);
         } else {
-            setIsOpen(!isOpen);
+            const nextOpen = !isOpen;
+            setIsOpen(nextOpen);
+            localStorage.setItem('sidebar-open', JSON.stringify(nextOpen));
         }
     };
 
@@ -83,12 +92,12 @@ export function Sidebar({ isMobileOpen = false, onMobileToggle }: SidebarProps) 
             {/* Sidebar */}
             <div
                 className={`fixed left-0 top-0 h-screen bg-background border-r border-border transition-all duration-300 z-40 flex flex-col overflow-y-auto pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] ${isMobile
-                        ? (isOpen ? 'w-64 translate-x-0' : 'w-64 -translate-x-full')
-                        : (isOpen ? 'w-64' : 'w-20')
+                        ? (isOpen ? 'w-44 translate-x-0' : 'w-52 -translate-x-full')
+                        : (isOpen ? 'w-44' : 'w-12')
                     }`}
             >
                 {/* Header do Sidebar */}
-                <div className="flex items-center justify-between px-6 py-2 border-b border-border">
+                <div className="flex items-center justify-between px-2.5 py-2 border-b border-border">
                     {isOpen && !isMobile && <h1 className="text-lg font-bold text-foreground">Menu</h1>}
                     {isMobile && isOpen && <h1 className="text-lg font-bold text-foreground">Menu</h1>}
                     {!isMobile && (
