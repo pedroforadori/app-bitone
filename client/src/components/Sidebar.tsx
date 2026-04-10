@@ -7,6 +7,17 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Separator } from './ui/separator';
+import {
+    AlertDialog,
+    AlertDialogTrigger,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogAction,
+    AlertDialogCancel,
+} from './ui/alert-dialog';
 
 interface SidebarProps {
     isMobileOpen?: boolean;
@@ -171,16 +182,31 @@ export function Sidebar({ isMobileOpen = false, onMobileToggle }: SidebarProps) 
                         </Button>
                     )}
                     <Separator className="my-2" />
-                    <Button
-                        variant="ghost"
-                        className={`w-full text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950 transition-all ${isOpen ? 'justify-start gap-4 h-12 px-4' : 'justify-center h-12'
-                            }`}
-                        onClick={handleLogout}
-                        title="Logout"
-                    >
-                        <LogOut size={20} />
-                        {isOpen && <span>Logout</span>}
-                    </Button>
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                className={`w-full text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950 transition-all ${isOpen ? 'justify-start gap-4 h-12 px-4' : 'justify-center h-12'
+                                    }`}
+                                title="Logout"
+                            >
+                                <LogOut size={20} />
+                                {isOpen && <span>Logout</span>}
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Sair</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    Tem certeza que deseja sair da sessão? Você poderá fazer login novamente a qualquer momento.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleLogout}>Sair</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
                 </div>
             </div>
         </>
