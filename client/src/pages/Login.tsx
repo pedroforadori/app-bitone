@@ -2,15 +2,17 @@
 
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, Phone, Shield, ArrowLeft } from 'lucide-react';
+import { Loader2, Phone, Shield, ArrowLeft, Sun, Moon } from 'lucide-react';
 import { formatPhone, normalizePhone } from '@/utils/formatPhone';
 
 export default function Login() {
   const { login, requestToken, tokenSent, phoneNumber, isLoading } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [step, setStep] = useState<'phone' | 'token'>('phone');
   const [phone, setPhone] = useState('');
   const [token, setToken] = useState('');
@@ -56,7 +58,19 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <div className="relative min-h-screen bg-background flex items-center justify-center p-4">
+      {toggleTheme && (
+        <div className="absolute right-4 top-4">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={toggleTheme}
+            aria-label="Alternar tema"
+          >
+            {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </Button>
+        </div>
+      )}
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 w-12 h-12 bg-primary rounded-full flex items-center justify-center">

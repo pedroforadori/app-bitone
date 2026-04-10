@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Contract, ContractStatus } from '@/lib/types';
 import { formatCurrency, formatDateTime, translateStatus, getStatusColor } from '@/lib/format';
 import { Button } from '@/components/ui/button';
@@ -25,7 +25,7 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ChevronRight, AlertCircle } from 'lucide-react';
+import { ChevronLeft, ChevronRight, AlertCircle, Edit, X } from 'lucide-react';
 
 interface ContractsTableProps {
   contracts: Contract[];
@@ -40,17 +40,28 @@ export function ContractsTable({ contracts, isLoading = false }: ContractsTableP
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedContract, setSelectedContract] = useState<Contract | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editCustomerName, setEditCustomerName] = useState('');
+  const [editBankName, setEditBankName] = useState('');
+  const [editAmount, setEditAmount] = useState('');
+  const [editStatus, setEditStatus] = useState<ContractStatus>('PENDING');
+  const [contractData, setContractData] = useState<Contract[]>(contracts);
+
+  useEffect(() => {
+    setContractData(contracts);
+    setCurrentPage(1);
+  }, [contracts]);
 
   // Filtra contratos
   const filteredContracts = useMemo(() => {
     if (!searchTerm && statusFilter === 'ALL') {
-      return contracts;
+      return contractData;
     }
 
-    return contracts.filter((contract) => {
+    return contractData.filter((contract) => {
       const searchLower = searchTerm.toLowerCase().trim();
-      
-      const matchesSearch = !searchTerm || 
+
+      const matchesSearch = !searchTerm ||
         (contract.id && contract.id.toLowerCase().includes(searchLower)) ||
         (contract.customerName && contract.customerName.toLowerCase().includes(searchLower)) ||
         (contract.bankName && contract.bankName.toLowerCase().includes(searchLower));
@@ -59,7 +70,7 @@ export function ContractsTable({ contracts, isLoading = false }: ContractsTableP
 
       return matchesSearch && matchesStatus;
     });
-  }, [contracts, searchTerm, statusFilter]);
+  }, [contractData, searchTerm, statusFilter]);
 
   // Paginação
   const totalPages = Math.ceil(filteredContracts.length / ITEMS_PER_PAGE);
@@ -69,7 +80,43 @@ export function ContractsTable({ contracts, isLoading = false }: ContractsTableP
 
   const handleRowClick = (contract: Contract) => {
     setSelectedContract(contract);
+    setEditCustomerName(contract.customerName);
+    setEditBankName(contract.bankName);
+    setEditAmount(String(contract.amount));
+    setEditStatus(contract.status);
+    setIsEditing(false);
     setIsDrawerOpen(true);
+  };
+
+  const handleSaveEdit = () => {
+    if (!selectedContract) {
+      return;
+    }
+
+    const parsedAmount = Number(editAmount.replace(',', '.'));
+    const updatedContract: Contract = {
+      ...selectedContract,
+      customerName: editCustomerName.trim() || selectedContract.customerName,
+      bankName: editBankName.trim() || selectedContract.bankName,
+      amount: Number.isNaN(parsedAmount) ? selectedContract.amount : parsedAmount,
+      status: editStatus,
+    };
+
+    setSelectedContract(updatedContract);
+    setContractData((prev) => prev.map((contract) => contract.id === updatedContract.id ? updatedContract : contract));
+    setIsEditing(false);
+  };
+
+  const handleCancelEdit = () => {
+    if (!selectedContract) {
+      return;
+    }
+
+    setEditCustomerName(selectedContract.customerName);
+    setEditBankName(selectedContract.bankName);
+    setEditAmount(String(selectedContract.amount));
+    setEditStatus(selectedContract.status);
+    setIsEditing(false);
   };
 
   const handlePrevPage = () => {
@@ -200,43 +247,86 @@ export function ContractsTable({ contracts, isLoading = false }: ContractsTableP
       </div>
 
       {/* Drawer de Detalhes */}
-      <Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+      <Sheet
+        open={isDrawerOpen}
+        onOpenChange={(open) => {
+          setIsDrawerOpen(open);
+          if (!open) {
+            setIsEditing(false);
+          }
+        }}
+      >
         <SheetContent className="w-full sm:w-96 overflow-y-auto px-3">
           {selectedContract && (
             <>
               <SheetHeader>
-                <SheetTitle className="text-xl">Detalhes do Contrato</SheetTitle>
-                <SheetDescription>{selectedContract.id}</SheetDescription>
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <SheetTitle className="text-xl">Detalhes do Contrato</SheetTitle>
+                    <SheetDescription>{selectedContract.id}</SheetDescription>
+                  </div>
+
+                </div>
               </SheetHeader>
 
               <div className="mt-6 space-y-6">
                 {/* Informações Básicas */}
                 <div>
                   <h3 className="font-semibold text-foreground mb-3">Informações Básicas</h3>
-                  <div className="space-y-2 text-sm">
+                  <div className="space-y-4 text-sm">
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">ID do Contrato:</span>
                       <span className="font-mono font-semibold text-primary">
                         {selectedContract.id}
                       </span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Cliente:</span>
-                      <span className="font-semibold text-foreground">
-                        {selectedContract.customerName}
-                      </span>
+
+                    <div className="space-y-2">
+                      <div className="text-muted-foreground">Cliente:</div>
+                      {isEditing ? (
+                        <Input
+                          value={editCustomerName}
+                          onChange={(e) => setEditCustomerName(e.target.value)}
+                          placeholder="Nome do cliente"
+                        />
+                      ) : (
+                        <div className="font-semibold text-foreground">
+                          {selectedContract.customerName}
+                        </div>
+                      )}
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Banco:</span>
-                      <span className="font-semibold text-foreground">
-                        {selectedContract.bankName}
-                      </span>
+
+                    <div className="space-y-2">
+                      <div className="text-muted-foreground">Banco:</div>
+                      {isEditing ? (
+                        <Input
+                          value={editBankName}
+                          onChange={(e) => setEditBankName(e.target.value)}
+                          placeholder="Nome do banco"
+                        />
+                      ) : (
+                        <div className="font-semibold text-foreground">
+                          {selectedContract.bankName}
+                        </div>
+                      )}
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Valor:</span>
-                      <span className="font-semibold text-foreground">
-                        {formatCurrency(selectedContract.amount)}
-                      </span>
+
+                    <div className="space-y-2">
+                      <div className="text-muted-foreground">Valor:</div>
+                      {isEditing ? (
+                        <Input
+                          type="number"
+                          step="0.01"
+                          min="0"
+                          value={editAmount}
+                          onChange={(e) => setEditAmount(e.target.value)}
+                          placeholder="Valor do contrato"
+                        />
+                      ) : (
+                        <div className="font-semibold text-foreground">
+                          {formatCurrency(selectedContract.amount)}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -244,9 +334,22 @@ export function ContractsTable({ contracts, isLoading = false }: ContractsTableP
                 {/* Status */}
                 <div>
                   <h3 className="font-semibold text-foreground mb-3">Status</h3>
-                  <Badge className={`${getStatusColor(selectedContract.status)} text-base px-3 py-1`}>
-                    {translateStatus(selectedContract.status)}
-                  </Badge>
+                  {isEditing ? (
+                    <Select value={editStatus} onValueChange={(value) => setEditStatus(value as ContractStatus)}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Selecione o status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="APPROVED">Aprovado</SelectItem>
+                        <SelectItem value="PENDING">Pendente</SelectItem>
+                        <SelectItem value="REJECTED">Rejeitado</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <Badge className={`${getStatusColor(selectedContract.status)} text-base px-3 py-1`}>
+                      {translateStatus(selectedContract.status)}
+                    </Badge>
+                  )}
                 </div>
 
                 {/* Data */}
@@ -274,7 +377,27 @@ export function ContractsTable({ contracts, isLoading = false }: ContractsTableP
                     </div>
                   </div>
                 )}
-
+                <div className="flex flex-wrap gap-2">
+                  {isEditing ? (
+                    <div className="flex flex-row gap-2 w-full">
+                      <Button className="w-1/2" size="sm" variant="outline" onClick={handleCancelEdit}>
+                        Cancelar
+                      </Button>
+                      <Button className="w-1/2" size="sm" onClick={handleSaveEdit}>
+                        Salvar
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button
+                      className="w-full"
+                      size="sm"
+                      variant="outline"
+                      onClick={() => setIsEditing(true)}>
+                      <Edit className="h-4 w-4 mr-2" />
+                      Editar
+                    </Button>
+                  )}
+                </div>
                 {/* Ações */}
                 <div className="pt-4 border-t border-border">
                   <Button
@@ -282,6 +405,7 @@ export function ContractsTable({ contracts, isLoading = false }: ContractsTableP
                     className="w-full"
                     onClick={() => setIsDrawerOpen(false)}
                   >
+                    <X className="h-4 w-4 mr-2" />
                     Fechar
                   </Button>
                 </div>

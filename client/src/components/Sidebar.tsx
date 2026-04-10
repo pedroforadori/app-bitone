@@ -130,7 +130,7 @@ export function Sidebar({ isMobileOpen = false, onMobileToggle }: SidebarProps) 
                         title="Grid"
                     >
                         <Grid3X3 size={20} />
-                        {isOpen && <span>Grid</span>}
+                        {isOpen && <span>Contratos</span>}
                     </Button>
                 </nav>
 
